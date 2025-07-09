@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: #343a40;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="login-container">
+        <h2><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h2>
+        <div th:if="${param.error}" class="alert alert-danger">
+            Nombre de usuario o contraseña inválidos.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-info">
+            Has cerrado sesión exitosamente.
+        </div>
+        <div th:if="${param.registered}" class="alert alert-success">
+            ¡Registro exitoso! Por favor, inicia sesión.
+        </div>
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="username"><i class="fas fa-user"></i> Usuario:</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Ingresa tu usuario" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Contraseña:</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Entrar</button>
+        </form>
+        <div class="text-center mt-3">
+            ¿No tienes una cuenta? <a th:href="@{/registro}">Regístrate aquí</a>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${producto.id == null ? 'Nuevo Producto' : 'Editar Producto'}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Mi App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/dashboard}"><i class="fas fa-home"></i> Inicio</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/productos}"><i class="fas fa-box"></i> Productos <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/categorias}"><i class="fas fa-tags"></i> Categorías</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-outline-light"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2 th:text="${producto.id == null ? 'Nuevo Producto' : 'Editar Producto'}"></h2>
+
+    <form th:action="@{/productos/guardar}" th:object="${producto}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="nombre"><i class="fas fa-box-open"></i> Nombre:</label>
+            <input type="text" id="nombre" th:field="*{nombre}" class="form-control" th:classappend="${#fields.hasErrors('nombre') ? 'is-invalid' : ''}" placeholder="Nombre del producto">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion"><i class="fas fa-info-circle"></i> Descripción:</label>
+            <textarea id="descripcion" th:field="*{descripcion}" class="form-control" th:classappend="${#fields.hasErrors('descripcion') ? 'is-invalid' : ''}" rows="3" placeholder="Descripción detallada del producto"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="precio"><i class="fas fa-dollar-sign"></i> Precio:</label>
+            <input type="number" step="0.01" id="precio" th:field="*{precio}" class="form-control" th:classappend="${#fields.hasErrors('precio') ? 'is-invalid' : ''}" placeholder="0.00">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="categoria"><i class="fas fa-tags"></i> Categoría:</label>
+            <select id="categoria" th:field="*{categoria}" class="form-control" th:classappend="${#fields.hasErrors('categoria') ? 'is-invalid' : ''}">
+                <option value="">-- Seleccione una categoría --</option>
+                <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nombre}" th:selected="${producto.categoria != null and producto.categoria.id == cat.id}"></option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar Producto</button>
+        <a th:href="@{/productos}" class="btn btn-secondary"><i class="fas fa-times-circle"></i> Cancelar</a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
